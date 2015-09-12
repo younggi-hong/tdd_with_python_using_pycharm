@@ -1,6 +1,6 @@
 from selenium import webdriver
 import unittest
-
+from selenium.webdriver.common.keys import Keys
 
 class NewVisitorTest(unittest.TestCase):
     def setUp(self):
@@ -17,11 +17,29 @@ class NewVisitorTest(unittest.TestCase):
 
         # 그녀는 메인 페이지 제목이 to-do lists 라는 것을 확인 했다.
         self.assertIn('To-Do', self.browser.title)
+
+        # 헤더 제목을 확인한다.
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
+
+        # to-do 아이템을 확인한다.
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
+
+        # text box 에 "Buy milk" 를 입력 한다.
+        inputbox.send_keys('Buy milk')
+
+        # enter 를 입력하면, 페이지는 업데이트 되고 "1: Buy milk" 란 to-do 리스트가
+        # 생성 된다.
+        inputbox.send_keys(Keys.ENTER)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_element_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: Buy milk' for row in rows)
+        )
+
         self.fail('Finish the test!')
-
-
-        # 그녀는 to-do item 을 선택했다.
-        # ....
 
 
 
