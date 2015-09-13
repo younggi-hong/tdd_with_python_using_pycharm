@@ -1,8 +1,9 @@
 from selenium import webdriver
-import unittest
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 
-class NewVisitorTest(unittest.TestCase):
+
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -18,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
 
         # 미라는 멋진 to-do 서비스가 있다는 것을 듣고 사이트에 방문 하였다.
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 그녀는 메인 페이지 제목이 to-do lists 라는 것을 확인 했다.
         self.assertIn('To-Do', self.browser.title)
@@ -49,11 +50,3 @@ class NewVisitorTest(unittest.TestCase):
         self.check_for_row_in_list_table('2: Sing a song')
 
         self.fail('Finish the test!')
-
-
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
-
-
