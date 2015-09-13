@@ -33,12 +33,28 @@ class NewVisitorTest(unittest.TestCase):
         # 생성 된다.
         inputbox.send_keys(Keys.ENTER)
 
+        # import time
+        # time.sleep(10)
+
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
             any(row.text == '1: Buy milk' for row in rows),
-            "New to-do item did not appear in table"
+            "New to-do item did not appear in table -- its text was:\n%s"
+            % (table.text)
         )
+
+        # "Sing a song" 을 추가한다.
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys("Sing a song")
+        inputbox.send_keys(Keys.ENTER)
+
+        # 등록된 item 을 확인한다.
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy milk', [row.text for row in rows])
+        self.assertIn('2: Sing a song', [row.text for row in rows])
+
 
         self.fail('Finish the test!')
 
