@@ -60,12 +60,12 @@ class NewVisitorTest(LiveServerTestCase):
 
         # yghong 방문 했다. 미라의 정보가 없어야 한다.
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy milk', page_text)
         self.assertNotIn('Sing a song', page_text)
 
         # yghong 이 새로운 리스트를 등록한다.
-        inputbox = self.browser.find_elements_by_id('id_new_item')
+        inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy book')
         inputbox.send_keys(Keys.ENTER)
 
@@ -75,6 +75,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(yghong_list_url, mira_list_url)
 
         # mira 정보가 있는지 확인한다.
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy milk', page_text)
         self.assertIn('Buy book', page_text)
