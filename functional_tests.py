@@ -46,7 +46,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # 등록된 item 을 확인한다.
         self.check_for_row_in_list_table('1: Buy milk')
-        self.check_for_row_in_list_table('2: Sing a Song')
+        self.check_for_row_in_list_table('2: Sing a song')
 
         self.fail('Finish the test!')
 
