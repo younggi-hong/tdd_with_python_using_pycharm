@@ -1,9 +1,25 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.contrib.staticfiles.testing import  StaticLiveServerTestCase
+import sys
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'http://' + arg.split('=')[1]
+                return
+        super().setUpClass()
+        cls.server_url = cls.live_server_url
+
+    @classmethod
+    def tearDownClass(cls):
+        if cls.server_url == cls.live_server_url:
+            super().tearDownClass()
+
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -19,7 +35,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
 
         # 미라는 멋진 to-do 서비스가 있다는 것을 듣고 사이트에 방문 하였다.
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
 
         # 그녀는 메인 페이지 제목이 to-do lists 라는 것을 확인 했다.
         self.assertIn('To-Do', self.browser.title)
@@ -30,7 +46,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # to-do 아이템을 확인한다.
         inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertEqual(inputbox.get_attribute('placeholder'),'Enter a to-do item')
+        self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
 
         # text box 에 "Buy milk" 를 입력 한다.
         inputbox.send_keys('Buy milk')
@@ -59,7 +75,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser = webdriver.Firefox()
 
         # yghong 방문 했다. 미라의 정보가 없어야 한다.
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy milk', page_text)
         self.assertNotIn('Sing a song', page_text)
@@ -80,7 +96,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertIn('Buy book', page_text)
 
     def test_layout_and_sytling(self):
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         self.browser.set_window_size(1024, 768)
 
         inputbox = self.browser.find_element_by_id('id_new_item')
@@ -93,4 +109,3 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=5
         )
-
