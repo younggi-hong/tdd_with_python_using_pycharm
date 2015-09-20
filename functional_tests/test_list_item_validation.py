@@ -40,7 +40,7 @@ class ItemValidationTest(FunctionalTest):
         self.check_for_row_in_list_table('1: Buy bread')
 
         # 같은 리스트를 추가한다.
-        self.get_item_input_box().send_keys('Buy bread')
+        self.get_item_input_box().send_keys('Buy bread\n')
 
         # 중복 추가하면 안된다는 메시지를 확인 한다.
         self.check_for_row_in_list_table('1: Buy bread')
