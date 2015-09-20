@@ -18,7 +18,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('To-Do', header_text)
 
         # to-do 아이템을 확인한다.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
 
         # text box 에 "Buy milk" 를 입력 한다.
@@ -32,7 +32,7 @@ class NewVisitorTest(FunctionalTest):
         self.check_for_row_in_list_table('1: Buy milk')
 
         # "Sing a song" 을 추가한다.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys("Sing a song")
         inputbox.send_keys(Keys.ENTER)
 
@@ -54,7 +54,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('Sing a song', page_text)
 
         # yghong 이 새로운 리스트를 등록한다.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy book')
         inputbox.send_keys(Keys.ENTER)
 
