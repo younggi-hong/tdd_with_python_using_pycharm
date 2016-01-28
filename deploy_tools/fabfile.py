@@ -2,7 +2,7 @@ from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run
 import random
 
-REPO_URL = 'https://github.com/younggi-hong/tdd_with_python_using_pycharm.git'
+REPO_URL = 'https://yghong@bitbucket.org/yghong/superlists.git'
 
 def	_create_directory_structure_if_necessary(site_folder):
 	for subfolder in ('database', 'static', 'virtualenv', 'source'):
@@ -41,6 +41,7 @@ def _update_database(source_folder):
 
 
 def deploy():
+
 	site_folder = '/home/%s/sites/%s' % (env.user, env.host)
 	source_folder = site_folder + '/source'
 	_create_directory_structure_if_necessary(site_folder)

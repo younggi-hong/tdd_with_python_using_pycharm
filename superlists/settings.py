@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'accounts',
 )
 
+INSTALLED_APPS += ('storages',)
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,10 +60,21 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'deploytestdb',
+		'USER' : 'yghong',
+		'PASSWORD' : 'yghong1234',
+        'HOST' : 'deploytest.ccmxopvfaztv.ap-northeast-2.rds.amazonaws.com',
+        'PORT' : '5432',
     }
 }
 
@@ -113,3 +126,13 @@ LOGGING = {
     },
     'root': {'level': 'INFO'}
 }
+
+AWS_ACCESS_KEY_ID = 'AKIAI5GWBKHJVHEZE5XQ'
+AWS_SECRET_ACCESS_KEY = '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'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_STORAGE_BUCKET_NAME = "deploy-test-s3"
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+
+STATIC_URL = S3_URL
